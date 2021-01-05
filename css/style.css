@@ -1,0 +1,118 @@
+*{
+    margin: 0;
+    font-family: -webkit-pictograph;
+}
+.container{
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+header{
+    width: 100%;
+    height: 80px;
+    background-color: #000;
+    margin-bottom: 30px;
+}
+header .container{
+    color: #fff;
+    box-sizing: border-box;
+    padding: 19px 0px;
+    display: flex;
+    justify-content:space-between;
+}
+header .container h1 i{
+    margin-right: 10px;
+}
+header .container button{
+    border:1px solid #fff;
+    background-color: transparent;
+    color:#fff;
+    padding:10px;
+    cursor: pointer;
+    font-size: 14px;
+    outline: none;
+}
+header .container button:hover{
+    background-color: #fff;
+    color:#000;
+}
+header .container button i{
+    margin-right: 10px;
+}
+
+.content{
+}
+.content .note-frame{
+    width: 600px;
+    height: 500px;
+    background-color: gray;
+    margin: 0 auto 30px auto;
+    padding: 10px;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+.content .note-frame .top-bar{
+    display: flex;
+    justify-content: space-between;
+}
+.content .note-frame .top-bar .title{
+    display:inline;
+}
+.content .note-frame .top-bar .title h3{
+    display:inline;
+}
+.content .note-frame .top-bar .title-input{
+    display:none;
+    background: none;
+    border: 1px solid #000;
+    padding: 3px;
+    outline: none;
+    font-size:17px;
+}
+.content .note-frame .top-bar .title-output{
+    font-size: 23px;
+    cursor: pointer;
+}
+.content .note-frame .top-bar .actions i{ 
+    font-size: 15px;
+    cursor: pointer;
+}
+.content .note-frame .top-bar .actions i:hover{
+    color:#444;
+}
+.content .note-frame .top-bar .actions .minimize{ 
+    margin-right: 10px;
+}
+.content .note-frame .top-bar .actions .minimize:hover{
+    color:#e7f33e;
+}
+.content .note-frame .top-bar .actions .delete:hover{
+    color:#af0000;
+}
+.content .note-frame .date{
+    margin-bottom: 15px;
+    display: block;
+}
+.content .note{
+    width:100%;
+    height:415px;
+    background-color:#d0d0d0;
+}
+.content .note .note-input{
+    width:100%;
+    height:100%;
+    box-sizing: border-box;
+    display:none;
+    padding:5px;
+    outline:none;
+}
+.content .note .note-output{
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+    box-sizing: border-box;
+    padding: 15px;
+    white-space: pre-wrap;
+    line-height: 1;
+    overflow: auto;
+}
