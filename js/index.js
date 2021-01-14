@@ -27,7 +27,7 @@ function update_view(){
                 '<div class="actions"><i class="far fa-window-minimize minimize" onclick="minimize(event)"></i><i class="far fa-trash-alt delete" onclick="delete_note('+$(notes)[e].note_id+')"></i></div>'+
                 '</div>'+
                 '<span class="date">'+$(notes)[e].date+'</span>'+
-                '<div class="note" onclick="note_click(event)" onfocusout="note_focusout(event)"><textarea class="note-input">'+$(notes)[e].note_content+'</textarea><div class="note-output">'+notes[e].note_content+'</div></div></div>';
+                '<div class="note" onclick="note_click(event)" onfocusout="note_focusout(event)"><textarea class="note-input">'+$(notes)[e].note_content+'</textarea><div class="note-output">'+note_content_convert(notes[e].note_content)+'</div></div></div>';
         content = note + content;
     });
     $('.content').html(content);
@@ -75,7 +75,7 @@ function note_click(event){
 function note_focusout(event){
     let note_id = "#" + $(event.target).parents('.note-frame').attr('id');
     
-    let input_value = note_content_convert($(note_id).find('.note-input').val());
+    let input_value = $(note_id).find('.note-input').val();
 
     $(notes).each(function(e){
         if($(notes)[e].note_id == note_id.split("_")[1]){
@@ -83,7 +83,7 @@ function note_focusout(event){
         }
     });
 
-    $(note_id).find('.note-output').html(input_value);
+    $(note_id).find('.note-output').html(note_content_convert(input_value));
     
     $(note_id).find('.note-input').fadeOut(400,function(){
         $(note_id).find('.note-output').fadeIn();
@@ -147,7 +147,7 @@ function first_note(){
     let title = "Welcome to Noteapp"
     let content = "#Welcome to Noteapp\nNoteapp is a simple application created to take notes.\n\n#Here you can:\n- Create New notes\n- Edit created notes\n- Toggle the visibility of notes to organize it better\n- Delete unnecessary notes";
     
-    notes.push({note_id: 0, title: title, date: new_date(), note_content: note_content_convert(content), height: "500px"});
+    notes.push({note_id: 0, title: title, date: new_date(), note_content: content, height: "500px"});
     update_view();
 
     $('#note_0 .title .title-input').val(title);
