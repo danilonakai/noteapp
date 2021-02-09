@@ -34,7 +34,7 @@ function update_view(){
     });
     $('.content').html(content);
 
-    localStorage.setItem('notes',JSON.stringify(notes))
+    localStorage.setItem('notes',JSON.stringify(notes));
 }
 
 function title_click(event){
