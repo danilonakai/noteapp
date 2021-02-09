@@ -1,18 +1,19 @@
-var id = 1;
+var note_id;
 var notes;
 
-function create_note(id,date){
-    let new_note = {note_id: id,title: "Click here to define the title.", date: date, note_content: "", height: "500px"};
+function create_note(date){
+    let new_note = {note_id: parseInt(note_id),title: "Click here to define the title.", date: date, note_content: "", height: "500px"};
     notes.push(new_note);
-    id++;
+    note_id++;
+    localStorage.setItem('note_id',note_id);
     update_view();
 }
 
-function delete_note(id){
+function delete_note(note_id){
     let delete_item;
 
     $(notes).each(function(e){
-        if(notes[e].note_id == id){
+        if(notes[e].note_id == note_id){
             delete_item = e;
         }
     });
@@ -155,15 +156,18 @@ function first_note(){
 
 $(document).ready(function(){
     notes = JSON.parse(localStorage.getItem('notes'));
-    
+    note_id = localStorage.getItem('note_id');
+
     if(notes === null){
         notes = [];
         first_note();
     }else{
         update_view();
     }
+
+    (note_id == null) ? note_id = 1 : update_view();
 });
 
 $('#create-note').click(function(){
-    create_note(id,new_date());
+    create_note(new_date());
 });
