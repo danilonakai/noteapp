@@ -105,12 +105,14 @@ header .container button i{
     background-color:#d0d0d0;
 }
 .content .note .note-input{
-    width:100%;
-    height:100%;
+    width: 100%;
+    height: 100%;
     box-sizing: border-box;
-    display:none;
-    padding:5px;
-    outline:none;
+    display: none;
+    padding: 5px;
+    outline: none;
+    background-color: #252525;
+    color: #fff;
 }
 .content .note .note-output{
     width: 100%;

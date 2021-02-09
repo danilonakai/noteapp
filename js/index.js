@@ -1,9 +1,11 @@
 var id = 1;
-var notes = [];
+var notes;
 
 function create_note(id,date){
     let new_note = {note_id: id,title: "Click here to define the title.", date: date, note_content: "", height: "500px"};
     notes.push(new_note);
+    id++;
+    update_view();
 }
 
 function delete_note(id){
@@ -23,7 +25,7 @@ function update_view(){
     $(notes).each(function(e){
         let note = '<div id="note_'+$(notes)[e].note_id+'" class="note-frame" style="height: '+$(notes)[e].height+';">'+
                 '<div class="top-bar">'+
-                '<div class="title" onclick="title_click(event)" onfocusout="title_focusout(event)"><h3 class="title-output">'+$(notes)[e].title+'</h3><input type="text" class="title-input"></div>'+
+                '<div class="title" onclick="title_click(event)" onfocusout="title_focusout(event)"><h3 class="title-output">'+$(notes)[e].title+'</h3><input type="text" class="title-input" value="'+$(notes)[e].title+'"></div>'+
                 '<div class="actions"><i class="far fa-window-minimize minimize" onclick="minimize(event)"></i><i class="far fa-trash-alt delete" onclick="delete_note('+$(notes)[e].note_id+')"></i></div>'+
                 '</div>'+
                 '<span class="date">'+$(notes)[e].date+'</span>'+
@@ -31,12 +33,18 @@ function update_view(){
         content = note + content;
     });
     $('.content').html(content);
+
+    localStorage.setItem('notes',JSON.stringify(notes))
 }
 
 function title_click(event){
     let note_id = "#" + $(event.target).parents('.note-frame').attr('id');
+    let title_value = $(note_id).find('.title-input').val();
 
     $(note_id).find('.title-output').fadeOut(400, function(){
+        if(title_value == "Welcome to Noteapp" || title_value == "Click here to define the title."){
+            $(note_id).find('.title-input').val("");
+        }
         $(note_id).find('.title-input').fadeIn();
         $(note_id).find('.title-input').focus();
     });
@@ -57,11 +65,7 @@ function title_focusout(event){
         }
     });
 
-    $(note_id).find('.title-output').html(input_value);
-
-    $(note_id).find('.title-input').fadeOut(function(){
-        $(note_id).find('.title-output').fadeIn();
-    });
+    update_view();
 }
 
 function note_click(event){
@@ -83,12 +87,7 @@ function note_focusout(event){
         }
     });
 
-    $(note_id).find('.note-output').html(note_content_convert(input_value));
-    
-    $(note_id).find('.note-input').fadeOut(400,function(){
-        $(note_id).find('.note-output').fadeIn();
-    });
-    
+    update_view();
 }
 
 function new_date(){
@@ -109,10 +108,10 @@ function minimize(event){
 
     if($(event.target).parents('.note-frame').height() > 70){
         height = "70px";
-        $(event.target).parents('.note-frame').animate({height: "70px"});
+        $(event.target).parents('.note-frame').animate({height: "70px"},function(){update_view()});
     }else{
         height = "500px";
-        $(event.target).parents('.note-frame').animate({height: "500px"});
+        $(event.target).parents('.note-frame').animate({height: "500px"},function(){update_view()});
     }
 
     $(notes).each(function(e){
@@ -155,11 +154,16 @@ function first_note(){
 }
 
 $(document).ready(function(){
-    first_note();
+    notes = JSON.parse(localStorage.getItem('notes'));
+    
+    if(notes === null){
+        notes = [];
+        first_note();
+    }else{
+        update_view();
+    }
 });
 
 $('#create-note').click(function(){
     create_note(id,new_date());
-    id++;
-    update_view();
 });
