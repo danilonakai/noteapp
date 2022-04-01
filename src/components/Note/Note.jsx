@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import './Note.css';
 // import { useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+  import { faPlus } from '@fortawesome/free-solid-svg-icons'
 
 export default class Note extends Component {
     constructor(props) {
@@ -113,15 +115,50 @@ export default class Note extends Component {
 
     render() {
         return (
-            <div className="note">
-                <button onClick={() => this.create_note("note", "note content")}>Create note</button>
+            <div id="notes">
+                <header>
+                    <div className="container">
+                        <h1>Notes</h1>
+
+                        <button>
+                            <FontAwesomeIcon icon={faPlus} />
+                            New note
+                        </button>
+                    </div>
+                </header>
+
+                <section>
+                    <div className="container">
+                        <article>
+                            <input type="text" />
+
+                            <textarea name="" id=""></textarea>
+                        </article>
+
+                        <article>
+                            <input type="text" />
+
+                            <textarea name="" id=""></textarea>
+                        </article>
+
+                        <article>
+                            <input type="text" />
+
+                            <textarea name="" id=""></textarea>
+                        </article>
+                    </div>
+                </section>
+                
+
+
+                {/* <button onClick={() => this.create_note("note", "note content")}>Create note</button>
 
                 <button onClick={() => this.delete_note(2)}>Delete 2nd note</button>
 
                 <button onClick={() => this.select_note(3)}>select 3rd note</button>
 
                 <input type="text" id="aprv-note" onChange={(event) => this.edit_note_title(event, 3)} />
-                <input type="text" id="aprv-note2" onChange={(event) => this.edit_note_content(event, 3)} />
+                <input type="text" id="aprv-note2" onChange={(event) => this.edit_note_content(event, 3)} /> */}
             </div>
         )
     }
