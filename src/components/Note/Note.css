@@ -3,19 +3,20 @@
 }
 
 .container{
-    width:1000px;
+    width:90%;
     margin:0 auto;
 }
 
 #notes{
     background-color: #E5EDF1;
     width:100%;
-    height:100vh;
+    min-height: 100vh;
 }
 #notes header{
     background-color: #1180C5;
     padding: 20px 0;
     box-shadow: 0px 1px 5px 0px #1180c5;
+    margin-bottom:40px;
 }
 #notes header .container{
     display:flex;
@@ -35,6 +36,7 @@
     align-items: center;
     color:#fff;
     font-size:14px;
+    outline:none;
 }
 #notes header button:hover{
     background-color:#fff;
@@ -52,18 +54,53 @@
 }
 #notes section article{
     width: 32%;
-    height: 500px;
     margin-right: 2%;
     background-color:#fff;
     box-shadow: 1px 1px 3px 0 #ccc;
     border-radius:5px;
     box-sizing: border-box;
     padding:15px;
-}
-#notes section article input{
-    font-size:25px;
-    color:#444;
+    margin-bottom: 30px;
+    position: relative;
 }
 #notes section article:nth-of-type(3n+0){
     margin-right: 0;
+}
+#notes section article svg{
+    position:absolute;
+    top:0;
+    right:0;
+    color:#444;
+    cursor:pointer;
+    visibility: hidden;
+}
+#notes section article:hover svg{
+    animation: 0.3s delete_btn forwards;
+}   
+@keyframes delete_btn{
+    0%{
+        top:0;
+        right: 0;
+        visibility: hidden;
+    }
+    100%{
+        top:8px;
+        right: 8px;
+        visibility: visible;
+    }
+}
+#notes section article textarea{
+    font-size:18px;
+    color:#444;
+    padding: 5px;
+    width: 100%;
+    box-sizing: border-box;
+    border: none;
+    resize:none;
+    outline: none;
+    overflow-y:hidden;
+}
+#notes section article textarea:first-of-type{
+    margin-bottom: 10px;
+    font-weight: 600;
 }

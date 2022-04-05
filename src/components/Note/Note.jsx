@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './Note.css';
 // import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-  import { faPlus } from '@fortawesome/free-solid-svg-icons'
+  import { faPlus,faTrash } from '@fortawesome/free-solid-svg-icons'
 
 export default class Note extends Component {
     constructor(props) {
@@ -12,92 +12,79 @@ export default class Note extends Component {
             note_id: 1,
             data: {
                 notes: []
-            },
-            selected_note: null
+            }
         };
 
     }
 
     componentDidMount() {
-        
+        let note_id = localStorage.getItem('note_id');
+        let data = localStorage.getItem('data');
+
+        if(note_id !== null && data !== null){
+            this.setState({
+                note_id: note_id,
+                data: JSON.parse(data)
+            },()=>{
+                Array.from(document.querySelectorAll("#notes section article textarea")).forEach(item=> {
+                    console.log(item.scrollHeight);
+                    item.style.height = item.scrollHeight+"px";
+                });
+            });
+        }
     }
 
-    create_note(title, content) {
+    create_note() {
         let id = this.state.note_id;
         let data = this.state.data;
         let new_data = JSON.parse(JSON.stringify(this.state.data));
 
         new_data.notes.push({
             id: id,
-            title: title,
-            content: content
+            title: "",
+            content: ""
         });
 
         this.setState({
             note_id: id + 1,
             data: new_data
-        }, () => console.log(this.state.data));
+        }, () => this.save_data());
     }
 
-    select_note(note_id) {
-        let data = this.state.data;
-        let selected_note = data.notes.filter(note => note.id === note_id)[0];
-
-        this.setState({
-            selected_note: selected_note
-        }, () => console.log(this.state.selected_note));
-    }
-
-    edit_note_title(event, note_id) {
+    edit_note(event, note_id,type) {
         let data = this.state.data;
         let new_data = [];
 
-        const title = event.target.value;
+        const value = event.target.value;
+
+        event.target.style.height = event.target.scrollHeight+"px";
 
         setTimeout(() => {
             JSON.parse(JSON.stringify(this.state.data)).notes.forEach(note => {
-                if (note.id === note_id) {
-                    note.title = event.target.value;
+                if(type === "title"){
+                    if (note.id === note_id) {
+                        note.title = event.target.value;
+                    }
+                }else if(type === "content"){
+                    if (note.id === note_id) {
+                        note.content = event.target.value;
+                    }
                 }
+                
 
                 new_data.push(note);
             });
 
             new_data = { notes: new_data };
 
-            if (title === event.target.value) {
+            if (value === event.target.value) {
                 this.setState({
                     data: new_data
-                }, () => console.log(this.state.data));
+                }, () => this.save_data());
             }
-        }, 5000);
+        }, 2000);
     }
-
-    edit_note_content(event, note_id) {
-        let data = this.state.data;
-        let new_data = [];
-
-        const content = event.target.value;
-
-        setTimeout(() => {
-            JSON.parse(JSON.stringify(this.state.data)).notes.forEach(note => {
-                if (note.id === note_id) {
-                    note.content = event.target.value;
-                }
-
-                new_data.push(note);
-            });
-
-            new_data = { notes: new_data };
-
-            if (content === event.target.value) {
-                this.setState({
-                    data: new_data
-                }, () => console.log(this.state.data));
-            }
-        }, 5000);
-    }
-
+    
     delete_note(note_id) {
         let data = this.state.data;
         let new_data = JSON.parse(JSON.stringify(this.state.data));
@@ -106,21 +93,42 @@ export default class Note extends Component {
 
         this.setState({
             data: new_data
-        }, () => console.log(this.state.data));
+        }, () => this.save_data());
     }
 
-    toggle_note() {
-
+    save_data(){
+        localStorage.setItem('note_id',this.state.note_id);
+        localStorage.setItem('data',JSON.stringify(this.state.data));
     }
+
+    print_converted_notes(){
+        let notes = this.state.data.notes;
+        let result = [];
+
+        notes.forEach(note=> {
+            result.push(
+                <article key={note.id}>
+                    <FontAwesomeIcon icon={faTrash} onClick={()=> this.delete_note(note.id)} />
+
+                    <textarea placeholder="Add title" defaultValue={note.title} onChange={event=> this.edit_note(event,note.id,"title")}></textarea>
+
+                    <textarea placeholder="Add content" defaultValue={note.content} onChange={event=> this.edit_note(event,note.id,"content")}></textarea>
+                </article>
+            );
+        });
+
+        return result;
+    }
+    
 
     render() {
         return (
             <div id="notes">
                 <header>
                     <div className="container">
-                        <h1>Notes</h1>
+                        <h1>NoteApp</h1>
 
-                        <button>
+                        <button onClick={()=> this.create_note()}>
                             <FontAwesomeIcon icon={faPlus} />
                             New note
                         </button>
@@ -129,36 +137,9 @@ export default class Note extends Component {
 
                 <section>
                     <div className="container">
-                        <article>
-                            <input type="text" />
-
-                            <textarea name="" id=""></textarea>
-                        </article>
-
-                        <article>
-                            <input type="text" />
-
-                            <textarea name="" id=""></textarea>
-                        </article>
-
-                        <article>
-                            <input type="text" />
-
-                            <textarea name="" id=""></textarea>
-                        </article>
+                        {this.print_converted_notes()}
                     </div>
                 </section>
-                
-
-
-                {/* <button onClick={() => this.create_note("note", "note content")}>Create note</button>
-
-                <button onClick={() => this.delete_note(2)}>Delete 2nd note</button>
-
-                <button onClick={() => this.select_note(3)}>select 3rd note</button>
-
-                <input type="text" id="aprv-note" onChange={(event) => this.edit_note_title(event, 3)} />
-                <input type="text" id="aprv-note2" onChange={(event) => this.edit_note_content(event, 3)} /> */}
             </div>
         )
     }
