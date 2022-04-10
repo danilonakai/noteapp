@@ -27,7 +27,6 @@ export default class Note extends Component {
                 data: JSON.parse(data)
             },()=>{
                 Array.from(document.querySelectorAll("#notes section article textarea")).forEach(item=> {
-                    console.log(item.scrollHeight);
                     item.style.height = item.scrollHeight+"px";
                 });
             });
