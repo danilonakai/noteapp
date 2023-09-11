@@ -139,6 +139,10 @@ export default class Note extends Component {
                         {this.print_converted_notes()}
                     </div>
                 </section>
+
+                <footer>
+                    <span>©2021 Danilo Nakai | All rights reserved.</span>
+                </footer>
             </div>
         )
     }
