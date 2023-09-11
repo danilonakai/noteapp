@@ -113,6 +113,10 @@ footer{
     bottom: 0;
     width: 100%;
 }
+footer a{
+    color:#ccc;
+    text-decoration: none;
+}
 
 @media screen and (max-width:1000px){
     #notes section article,#notes section article:nth-of-type(3n+0){
